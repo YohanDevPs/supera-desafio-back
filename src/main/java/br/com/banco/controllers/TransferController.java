@@ -1,6 +1,7 @@
 package br.com.banco.controllers;
 
 import br.com.banco.dtos.TransferDTO;
+import br.com.banco.dtos.TransferFilterDTO;
 import br.com.banco.services.TransferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
@@ -10,12 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
-import static br.com.banco.utils.time.TimeUtils.getDefaultEndDate;
-import static br.com.banco.utils.time.TimeUtils.getDefaultStartDate;
+import static br.com.banco.utils.time.DateUtils.*;
 
 @RestController
 @RequestMapping("/api/transfer/v1")
@@ -38,43 +35,10 @@ public class TransferController {
         Timestamp[] timestamps = defineTimesStamps(startDate, endDate);
         startDate = timestamps[0];
         endDate = timestamps[1];
-        List<TransferDTO> transfers = service.findAllByAccountIdAndDates(idAccount, transactionOperatorName, startDate, endDate);
 
-        int startIndex = page * limit;
-        int endIndex = Math.min(startIndex + limit, transfers.size());
-
-        List<TransferDTO> paginatedTransfers;
-        if (startIndex <= endIndex) {
-            paginatedTransfers = transfers.subList(startIndex, endIndex);
-        } else {
-            paginatedTransfers = new ArrayList<>();
-        }
-
-        List<EntityModel<TransferDTO>> transferModels = paginatedTransfers.stream()
-                .map(transfer -> EntityModel.of(transfer))
-                .collect(Collectors.toList());
-
-        PagedModel<EntityModel<TransferDTO>> pagedTransfers = PagedModel.of(transferModels,
-                new PagedModel.PageMetadata(limit, page, transfers.size()));
+        PagedModel<EntityModel<TransferDTO>> pagedTransfers = service.getPagedTransfers(
+                page, limit, new TransferFilterDTO(idAccount, transactionOperatorName, startDate, endDate));
 
         return ResponseEntity.ok(pagedTransfers);
-    }
-
-    private Timestamp[] defineTimesStamps(Timestamp startDate, Timestamp endDate) {
-        Timestamp[] timestamps = new Timestamp[2];
-
-        if(startDate == null) {
-            timestamps[0] = getDefaultStartDate();
-        } else {
-            timestamps[0] = startDate;
-        }
-
-        if (endDate == null) {
-            timestamps[1] = getDefaultEndDate();
-        } else {
-            timestamps[1] = endDate;
-        }
-
-        return timestamps;
     }
 }
