@@ -1,4 +1,4 @@
-package br.com.banco.utils;
+package br.com.banco.utils.time;
 
 import java.sql.Timestamp;
 

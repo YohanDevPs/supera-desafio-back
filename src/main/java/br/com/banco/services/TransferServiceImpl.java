@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.util.List;
 
-import static br.com.banco.mapper.UtilModelMapper.parseListObjects;
+import static br.com.banco.utils.mapper.UtilModelMapper.parseListObjects;
 
 @Service
 public class TransferServiceImpl implements TransferService {
@@ -23,7 +23,7 @@ public class TransferServiceImpl implements TransferService {
                                                         Timestamp startDate,
                                                         Timestamp endDate) {
         List<Transfer> transfers = repository
-                .findByAccountIdAndTransactionOperatorNameAndTransferDateBetween(
+                .findAllByParams(
                         idAccount, transactionOperatorName ,startDate, endDate
                 );
         return parseListObjects(transfers, TransferDTO.class);

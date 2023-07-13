@@ -1,4 +1,4 @@
-package br.com.banco.mapper;
+package br.com.banco.utils.mapper;
 
 import org.modelmapper.ModelMapper;
 
