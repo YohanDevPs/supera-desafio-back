@@ -10,11 +10,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static br.com.banco.utils.TimeUtils.getDefaultEndDate;
-import static br.com.banco.utils.TimeUtils.getDefaultStartDate;
+import static br.com.banco.utils.time.TimeUtils.getDefaultEndDate;
+import static br.com.banco.utils.time.TimeUtils.getDefaultStartDate;
 
 @RestController
 @RequestMapping("/api/transfer/v1")
@@ -37,17 +38,26 @@ public class TransferController {
         Timestamp[] timestamps = defineTimesStamps(startDate, endDate);
         startDate = timestamps[0];
         endDate = timestamps[1];
-
         List<TransferDTO> transfers = service.findAllByAccountIdAndDates(idAccount, transactionOperatorName, startDate, endDate);
 
-        List<EntityModel<TransferDTO>> transferModels = transfers.stream()
-                .map(EntityModel::of)
+        int startIndex = page * limit;
+        int endIndex = Math.min(startIndex + limit, transfers.size());
+
+        List<TransferDTO> paginatedTransfers;
+        if (startIndex <= endIndex) {
+            paginatedTransfers = transfers.subList(startIndex, endIndex);
+        } else {
+            paginatedTransfers = new ArrayList<>();
+        }
+
+        List<EntityModel<TransferDTO>> transferModels = paginatedTransfers.stream()
+                .map(transfer -> EntityModel.of(transfer))
                 .collect(Collectors.toList());
 
-        PagedModel<EntityModel<TransferDTO>> pagedModel = PagedModel.of(transferModels,
-                new PagedModel.PageMetadata(limit, page, transferModels.size()));
+        PagedModel<EntityModel<TransferDTO>> pagedTransfers = PagedModel.of(transferModels,
+                new PagedModel.PageMetadata(limit, page, transfers.size()));
 
-        return ResponseEntity.ok(pagedModel);
+        return ResponseEntity.ok(pagedTransfers);
     }
 
     private Timestamp[] defineTimesStamps(Timestamp startDate, Timestamp endDate) {
