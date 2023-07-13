@@ -1,11 +1,10 @@
 package br.com.banco.services;
 
-import br.com.banco.entities.Transfer;
+import br.com.banco.dtos.TransferDTO;
 
 import java.util.Set;
 
 public interface TransferService {
 
-    Set<Transfer> findByAccountId(Long id);
-
+    Set<TransferDTO> findAllByAccountId(Long id);
 }

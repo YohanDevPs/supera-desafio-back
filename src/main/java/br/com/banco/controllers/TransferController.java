@@ -1,5 +1,6 @@
 package br.com.banco.controllers;
 
+import br.com.banco.dtos.TransferDTO;
 import br.com.banco.entities.Transfer;
 import br.com.banco.services.TransferService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,14 @@ public class TransferController {
 
     @GetMapping(value = "/{idAccount}")
     @ResponseStatus(HttpStatus.OK)
-    public Set<Transfer> findById(@PathVariable(value = "idAccount") Long idAccount) throws Exception {
-        return service.findByAccountId(idAccount);
+    public Set<TransferDTO> findAllById(@PathVariable(value = "idAccount") Long idAccount) throws Exception {
+        return service.findAllByAccountId(idAccount);
     }
+
+//    @GetMapping(value = "/{idAccount}")
+//    @ResponseStatus(HttpStatus.OK)
+//    public Set<Transfer> findAll(@PathVariable(value = "idAccount") Long idAccount) throws Exception {
+//        return service.findByAccountId(idAccount);
+//    }
 
 }
