@@ -6,13 +6,12 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
-@Entity
-@Table(name = "transferencia")
+
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode
+@Entity
+@Table(name = "transferencia")
 public class Transfer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

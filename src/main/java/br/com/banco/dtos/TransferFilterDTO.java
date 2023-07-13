@@ -6,9 +6,8 @@ import java.sql.Timestamp;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
+@NoArgsConstructor
 public class TransferFilterDTO {
     private Long idAccount;
     private String transactionOperatorName;

@@ -6,11 +6,6 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "conta")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
