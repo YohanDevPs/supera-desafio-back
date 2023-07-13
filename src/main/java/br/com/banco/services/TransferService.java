@@ -2,9 +2,9 @@ package br.com.banco.services;
 
 import br.com.banco.dtos.TransferDTO;
 
-import java.util.Set;
+import java.sql.Timestamp;
+import java.util.List;
 
 public interface TransferService {
-
-    Set<TransferDTO> findAllByAccountId(Long id);
+    List<TransferDTO> findAllByAccountIdAndDates(Long idAccount, String transactionOperatorName, Timestamp startDate, Timestamp endDate);
 }

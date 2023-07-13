@@ -2,8 +2,8 @@ package br.com.banco.mapper;
 
 import org.modelmapper.ModelMapper;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UtilModelMapper {
 
@@ -13,8 +13,8 @@ public class UtilModelMapper {
         return mapper.map(origin, destination);
     }
 
-    public static <O, D> Set<D> parseListObjects(Set<O> origin, Class<D> destination){
-        Set<D> destinationObjects = new HashSet<>();
+    public static <O, D> List<D> parseListObjects(List<O> origin, Class<D> destination){
+        List<D> destinationObjects = new ArrayList<>();
         for (O o: origin) {
             destinationObjects.add(mapper.map(o, destination));
         }
