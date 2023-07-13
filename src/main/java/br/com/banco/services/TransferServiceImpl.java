@@ -2,9 +2,7 @@ package br.com.banco.services;
 
 import br.com.banco.dtos.TransferDTO;
 import br.com.banco.entities.Transfer;
-import br.com.banco.mapper.UtilModelMapper;
 import br.com.banco.repositories.TransferRepository;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,6 @@
 package br.com.banco.controllers;
 
 import br.com.banco.dtos.TransferDTO;
-import br.com.banco.entities.Transfer;
 import br.com.banco.services.TransferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
