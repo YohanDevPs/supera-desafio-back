@@ -3,6 +3,7 @@ package br.com.banco.services;
 import br.com.banco.dtos.TransferDTO;
 import br.com.banco.dtos.TransferFilterDTO;
 import br.com.banco.exeptions.AccountNotFoundException;
+import br.com.banco.exeptions.PageLimitExceededException;
 import br.com.banco.repositories.AccountRepository;
 import br.com.banco.repositories.TransferRepository;
 import br.com.banco.response.CustomPagedTransfersResponse;
@@ -57,13 +58,13 @@ public class TransferService {
     }
 
 
-    public BigDecimal calculateBalance(List<TransferDTO> filteredTransfers) {
+    BigDecimal calculateBalance(List<TransferDTO> filteredTransfers) {
         return filteredTransfers.stream()
                 .map(TransferDTO::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    public List<TransferDTO> findTransfersByFilter(TransferFilterDTO filterDTO) {
+    List<TransferDTO> findTransfersByFilter(TransferFilterDTO filterDTO) {
         var transfers = repository.findAllByParams(filterDTO.getIdAccount(),
                 filterDTO.getTransactionOperatorName(),
                 filterDTO.getStartDate(),
@@ -71,30 +72,33 @@ public class TransferService {
 
         return parseListObjects(transfers, TransferDTO.class);
     }
-
-    private void validateAccountExists(Long accountId) {
+    //OK
+    void validateAccountExists(Long accountId) {
         if (accountRepository.findById(accountId).isEmpty()) {
             throw new AccountNotFoundException("Conta não encontrada");
         }
     }
-
-    private void validatePageLimit(Integer page, PagedModel.PageMetadata pageMetadata) {
+    //OK
+    void validatePageLimit(Integer page, PagedModel.PageMetadata pageMetadata) {
         if (pageMetadata.getTotalPages() < page + 1) {
-            throw new IllegalArgumentException("Excedeu limite de páginas");
+            throw new PageLimitExceededException("Excedeu limite de páginas");
         }
     }
 
-    private List<TransferDTO> getPaginatedTransfers(List<TransferDTO> transfers, Integer page, Integer limit) {
+    //OK
+    List<TransferDTO> getPaginatedTransfers(List<TransferDTO> transfers, Integer page, Integer limit) {
         int startIndex = page * limit;
         int endIndex = Math.min(startIndex + limit, transfers.size());
         return (startIndex <= endIndex) ? transfers.subList(startIndex, endIndex) : new ArrayList<>();
     }
 
-    private List<EntityModel<TransferDTO>> mapToEntityModels(List<TransferDTO> transfers) {
+    //OK
+    List<EntityModel<TransferDTO>> mapToEntityModels(List<TransferDTO> transfers) {
         return transfers.stream().map(EntityModel::of).collect(Collectors.toList());
     }
 
-    private PagedModel.PageMetadata createPageMetadata(Integer limit, Integer page, Integer totalElements) {
+    //OK
+    PagedModel.PageMetadata createPageMetadata(Integer limit, Integer page, Integer totalElements) {
         return new PagedModel.PageMetadata(limit, page, totalElements);
     }
 }
