@@ -12,10 +12,13 @@ import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
+import java.util.ArrayList;
+
+import static br.com.banco.utils.hatoes.HateoasUtils.addHateoasLinks;
 import static br.com.banco.utils.mapper.UtilModelMapper.parseListObjects;
 
 @Service
@@ -40,12 +43,19 @@ public class TransferService {
 
         validatePageLimit(page, pageMetadata);
 
-        BigDecimal periodBalance = calculateBalance(PagedModel.of(transferModels, pageMetadata).getContent().stream()
-               .map(EntityModel::getContent)
-               .collect(Collectors.toList()));
+        BigDecimal periodBalance = calculateBalance(
+                PagedModel.of(transferModels, pageMetadata).getContent().stream()
+                        .map(EntityModel::getContent)
+                        .collect(Collectors.toList())
+        );
 
-        return new CustomPagedTransfersResponse(PagedModel.of(transferModels, pageMetadata), totalBalance, periodBalance);
+        PagedModel<EntityModel<TransferDTO>> pagedModel = PagedModel.of(transferModels, pageMetadata);
+
+        addHateoasLinks(pagedModel, page, filterDTO);
+
+        return new CustomPagedTransfersResponse(pagedModel, totalBalance, periodBalance);
     }
+
 
     public BigDecimal calculateBalance(List<TransferDTO> filteredTransfers) {
         return filteredTransfers.stream()
@@ -69,7 +79,7 @@ public class TransferService {
     }
 
     private void validatePageLimit(Integer page, PagedModel.PageMetadata pageMetadata) {
-        if (pageMetadata.getTotalPages() < page) {
+        if (pageMetadata.getTotalPages() < page + 1) {
             throw new IllegalArgumentException("Excedeu limite de páginas");
         }
     }

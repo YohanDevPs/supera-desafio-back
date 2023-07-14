@@ -1,6 +1,7 @@
 package br.com.banco.utils.time;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 public class DateUtils {
 
@@ -29,4 +30,11 @@ public class DateUtils {
 
         return timestamps;
     }
+
+    public static String formatTimestampToString(Timestamp timestamp) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd%20HH:mm:ss");
+        String formattedTimestamp = dateFormat.format(timestamp);
+        return formattedTimestamp;
+    }
+
 }
