@@ -1,6 +1,8 @@
 package br.com.banco.dtos;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;

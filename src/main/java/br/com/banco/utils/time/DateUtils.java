@@ -36,5 +36,4 @@ public class DateUtils {
         String formattedTimestamp = dateFormat.format(timestamp);
         return formattedTimestamp;
     }
-
 }

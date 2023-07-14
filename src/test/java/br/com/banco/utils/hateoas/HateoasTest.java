@@ -22,7 +22,6 @@ class HateoasTest {
     
     public static final String BASE_URL = "http://localhost:8080/api/transfer/v1/12345";
 
-
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);

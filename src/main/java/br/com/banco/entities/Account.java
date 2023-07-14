@@ -1,7 +1,5 @@
 package br.com.banco.entities;
 
-import lombok.*;
-
 import javax.persistence.*;
 
 @Entity

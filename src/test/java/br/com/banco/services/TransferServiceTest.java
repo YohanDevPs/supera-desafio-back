@@ -9,7 +9,6 @@ import br.com.banco.exeptions.PageLimitExceededException;
 import br.com.banco.mocks.MockTransfer;
 import br.com.banco.repositories.AccountRepository;
 import br.com.banco.repositories.TransferRepository;
-import br.com.banco.response.CustomPagedTransfersResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,6 +39,7 @@ public class TransferServiceTest {
 
     @BeforeEach
     void setup() {
+        input = new MockTransfer();
         MockitoAnnotations.openMocks(this);
     }
 

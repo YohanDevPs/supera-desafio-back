@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 
-import static br.com.banco.utils.time.DateUtils.*;
+import static br.com.banco.utils.time.DateUtils.defineTimesStamps;
 
 @RestController
 @RequestMapping("/api/transfer/v1")
@@ -33,9 +33,8 @@ public class TransferController {
         startDate = timestamps[0];
         endDate = timestamps[1];
 
-        CustomPagedTransfersResponse pagedTransfers = service.getCustomPagesTransfersResponse(
-                page, limit, new TransferFilterDTO(idAccount, transactionOperatorName, startDate, endDate));
-
-        return pagedTransfers;
+        return service.getCustomPagesTransfersResponse(
+                page, limit, new TransferFilterDTO(idAccount, transactionOperatorName, startDate, endDate)
+        );
     }
 }

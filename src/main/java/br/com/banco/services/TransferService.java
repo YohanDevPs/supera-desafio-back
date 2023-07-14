@@ -13,11 +13,9 @@ import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-
-import java.util.ArrayList;
 
 import static br.com.banco.utils.hatoes.HateoasUtils.addHateoasLinks;
 import static br.com.banco.utils.mapper.UtilModelMapper.parseListObjects;
