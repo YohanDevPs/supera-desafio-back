@@ -2,15 +2,16 @@ package br.com.banco.services;
 
 import br.com.banco.dtos.TransferDTO;
 import br.com.banco.dtos.TransferFilterDTO;
-import br.com.banco.entities.Transfer;
 import br.com.banco.exeptions.AccountNotFoundException;
 import br.com.banco.repositories.AccountRepository;
 import br.com.banco.repositories.TransferRepository;
+import br.com.banco.response.CustomPagedTransfersResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,22 +26,35 @@ public class TransferService {
     @Autowired
     private AccountRepository accountRepository;
 
-
-    public PagedModel<EntityModel<TransferDTO>> getPagedTransfers(Integer page, Integer limit, TransferFilterDTO filterDTO) {
+    public CustomPagedTransfersResponse getCustomPagesTransfersResponse(Integer page, Integer limit, TransferFilterDTO filterDTO) {
         validateAccountExists(filterDTO.getIdAccount());
 
         List<TransferDTO> filteredTransfers = findTransfersByFilter(filterDTO);
+
+        BigDecimal totalBalance = calculateBalance(filteredTransfers);
+
         List<TransferDTO> paginatedTransfers = getPaginatedTransfers(filteredTransfers, page, limit);
         List<EntityModel<TransferDTO>> transferModels = mapToEntityModels(paginatedTransfers);
 
-        validatePageLimit(page, filteredTransfers.size(), limit);
-
         PagedModel.PageMetadata pageMetadata = createPageMetadata(limit, page, filteredTransfers.size());
-        return PagedModel.of(transferModels, pageMetadata);
+
+        validatePageLimit(page, pageMetadata);
+
+        BigDecimal periodBalance = calculateBalance(PagedModel.of(transferModels, pageMetadata).getContent().stream()
+               .map(EntityModel::getContent)
+               .collect(Collectors.toList()));
+
+        return new CustomPagedTransfersResponse(PagedModel.of(transferModels, pageMetadata), totalBalance, periodBalance);
+    }
+
+    public BigDecimal calculateBalance(List<TransferDTO> filteredTransfers) {
+        return filteredTransfers.stream()
+                .map(TransferDTO::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public List<TransferDTO> findTransfersByFilter(TransferFilterDTO filterDTO) {
-        List<Transfer> transfers = repository.findAllByParams(filterDTO.getIdAccount(),
+        var transfers = repository.findAllByParams(filterDTO.getIdAccount(),
                 filterDTO.getTransactionOperatorName(),
                 filterDTO.getStartDate(),
                 filterDTO.getEndDate());
@@ -54,8 +68,7 @@ public class TransferService {
         }
     }
 
-    private void validatePageLimit(Integer page, Integer totalElements, Integer limit) {
-        PagedModel.PageMetadata pageMetadata = createPageMetadata(limit, page, totalElements);
+    private void validatePageLimit(Integer page, PagedModel.PageMetadata pageMetadata) {
         if (pageMetadata.getTotalPages() < page) {
             throw new IllegalArgumentException("Excedeu limite de páginas");
         }
