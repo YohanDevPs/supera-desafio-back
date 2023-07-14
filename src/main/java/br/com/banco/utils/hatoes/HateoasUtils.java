@@ -22,7 +22,7 @@ public class HateoasUtils {
         addLinkNextPageHateoas(pagedModel, page,filterDTO);
     }
 
-    private static void addLinkFirstPageHateoas(PagedModel<EntityModel<TransferDTO>> pagedModel, Integer page, TransferFilterDTO filterDTO) {
+    public static void addLinkFirstPageHateoas(PagedModel<EntityModel<TransferDTO>> pagedModel, Integer page, TransferFilterDTO filterDTO) {
         String baseUri = BASE_URI + filterDTO.getIdAccount();
 
         StringBuilder uriBuilder = new StringBuilder(baseUri);
@@ -49,7 +49,7 @@ public class HateoasUtils {
         }
     }
 
-    private static void addLinkLastPageHateoas(PagedModel<EntityModel<TransferDTO>> pagedModel, Integer page, TransferFilterDTO filterDTO) {
+    public static void addLinkLastPageHateoas(PagedModel<EntityModel<TransferDTO>> pagedModel, Integer page, TransferFilterDTO filterDTO) {
         String baseUri = BASE_URI + filterDTO.getIdAccount();
 
         StringBuilder uriBuilder = new StringBuilder(baseUri);
@@ -81,7 +81,7 @@ public class HateoasUtils {
             );
         }
     }
-    private static void addLinkPreviewPageHateoas(PagedModel<EntityModel<TransferDTO>> pagedModel, Integer page, TransferFilterDTO filterDTO) {
+    public static void addLinkPreviewPageHateoas(PagedModel<EntityModel<TransferDTO>> pagedModel, Integer page, TransferFilterDTO filterDTO) {
         String baseUri = BASE_URI + filterDTO.getIdAccount();
 
         StringBuilder uriBuilder = new StringBuilder(baseUri);
@@ -113,7 +113,7 @@ public class HateoasUtils {
         }
     }
 
-    private static void addLinkNextPageHateoas(PagedModel<EntityModel<TransferDTO>> pagedModel, Integer page, TransferFilterDTO filterDTO) {
+    public static void addLinkNextPageHateoas(PagedModel<EntityModel<TransferDTO>> pagedModel, Integer page, TransferFilterDTO filterDTO) {
         String baseUri = BASE_URI + filterDTO.getIdAccount();
 
         StringBuilder uriBuilder = new StringBuilder(baseUri);
