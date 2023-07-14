@@ -20,7 +20,7 @@ public class TransferController {
 
     @GetMapping(value = "/{idAccount}")
     @ResponseStatus(HttpStatus.OK)
-    public CustomPagedTransfersResponse findAllById(
+    public CustomPagedTransfersResponse findAllByFilters(
             @PathVariable(value = "idAccount") Long idAccount,
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "limit", defaultValue = "4") Integer limit,
