@@ -70,7 +70,7 @@ class HateoasTest {
 
         Link link = links.get(0);
 
-        int lastPage = (int) (pagedModel.getMetadata().getTotalPages() - 1);
+        int lastPage = (int) (pagedModel.getMetadata().getTotalPages());
         String expectedUrl = BASE_URI + filterDTO.getIdAccount()
                 + "?page=" + lastPage
                 + "&startDate=" + formatTimestampToString(defineTimesStamps(filterDTO.getStartDate(), filterDTO.getEndDate())[0])

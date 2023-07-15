@@ -143,7 +143,7 @@ public class TransferServiceTest {
         AccountNotFoundException exception = Assertions.assertThrows(AccountNotFoundException.class, () -> {
             transferService.validateAccountExists(accountId);
         });
-        Assertions.assertEquals("Conta não encontrada", exception.getMessage());
+        Assertions.assertEquals(String.format("Conta de número [%s] não encontrada", accountId), exception.getMessage());
     }
 
     @Test
@@ -162,6 +162,6 @@ public class TransferServiceTest {
         PageLimitExceededException exception = Assertions.assertThrows(PageLimitExceededException.class, () -> {
             transferService.validatePageLimit(page, pageMetadata);
         });
-        Assertions.assertEquals("Excedeu limite de páginas", exception.getMessage());
+        Assertions.assertEquals("Página não encontrada", exception.getMessage());
     }
 }

@@ -58,7 +58,7 @@ public class HateoasUtils {
         String startDate = formatTimestampToString(timestamps[0]);
         String endDate = formatTimestampToString(timestamps[1]);
 
-        int lastPage = (int) (pagedModel.getMetadata().getTotalPages() - 1);
+        int lastPage = (int) (pagedModel.getMetadata().getTotalPages());
         if(page < lastPage) {
             if (filterDTO.getTransactionOperatorName() != null) {
                 uriBuilder.append("?page=")
@@ -122,7 +122,7 @@ public class HateoasUtils {
         String startDate = formatTimestampToString(timestamps[0]);
         String endDate = formatTimestampToString(timestamps[1]);
 
-        int lastPage = (int) (pagedModel.getMetadata().getTotalPages() - 1);
+        int lastPage = (int) (pagedModel.getMetadata().getTotalPages());
         if (page < lastPage) {
             if (filterDTO.getTransactionOperatorName() != null) {
                 uriBuilder.append("?page=")

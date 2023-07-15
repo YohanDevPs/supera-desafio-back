@@ -16,4 +16,6 @@ public interface TransferRepository extends JpaRepository<Transfer, Long> {
             "AND (COALESCE(:transactionOperatorName, '') = '' OR t.transactionOperatorName = :transactionOperatorName) " +
             "AND t.transferDate BETWEEN :startTime AND :endTime")
     List<Transfer> findAllByParams(Long accountId, String transactionOperatorName, Timestamp startTime, Timestamp endTime);
+
+    List<Transfer> findAllByAccountId(Long accountId);
 }

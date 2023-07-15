@@ -13,6 +13,7 @@ import static br.com.banco.utils.time.DateUtils.defineTimesStamps;
 
 @RestController
 @RequestMapping("/api/transfer/v1")
+@CrossOrigin(origins = "http://localhost:3000")
 public class TransferController {
 
     @Autowired

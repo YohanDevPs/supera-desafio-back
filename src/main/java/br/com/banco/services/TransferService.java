@@ -33,26 +33,30 @@ public class TransferService {
 
         List<TransferDTO> filteredTransfers = findTransfersByFilter(filterDTO);
 
-        BigDecimal totalBalance = calculateBalance(filteredTransfers);
+        BigDecimal periodBalance  = calculateBalance(filteredTransfers);
 
         List<TransferDTO> paginatedTransfers = getPaginatedTransfers(filteredTransfers, page, limit);
         List<EntityModel<TransferDTO>> transferModels = mapToEntityModels(paginatedTransfers);
 
         PagedModel.PageMetadata pageMetadata = createPageMetadata(limit, page, filteredTransfers.size());
 
+        if(pageMetadata.getTotalElements() == 0) {
+            PagedModel<EntityModel<TransferDTO>> pagedModel = PagedModel.of(transferModels, pageMetadata);
+            return new CustomPagedTransfersResponse(pagedModel, BigDecimal.ZERO, BigDecimal.ZERO);
+        }
+
         validatePageLimit(page, pageMetadata);
 
-        BigDecimal periodBalance = calculateBalance(
-                PagedModel.of(transferModels, pageMetadata).getContent().stream()
-                        .map(EntityModel::getContent)
-                        .collect(Collectors.toList())
+        BigDecimal totalBalance = calculateBalance(
+                parseListObjects(repository
+                        .findAllByAccountId(filterDTO.getIdAccount()), TransferDTO.class)
         );
 
         PagedModel<EntityModel<TransferDTO>> pagedModel = PagedModel.of(transferModels, pageMetadata);
 
         addHateoasLinks(pagedModel, page, filterDTO);
 
-        return new CustomPagedTransfersResponse(pagedModel, totalBalance, periodBalance);
+        return new CustomPagedTransfersResponse(pagedModel, totalBalance , periodBalance);
     }
 
 
@@ -70,32 +74,29 @@ public class TransferService {
 
         return parseListObjects(transfers, TransferDTO.class);
     }
-    //OK
+
     void validateAccountExists(Long accountId) {
         if (accountRepository.findById(accountId).isEmpty()) {
-            throw new AccountNotFoundException("Conta não encontrada");
-        }
-    }
-    //OK
-    void validatePageLimit(Integer page, PagedModel.PageMetadata pageMetadata) {
-        if (pageMetadata.getTotalPages() < page + 1) {
-            throw new PageLimitExceededException("Excedeu limite de páginas");
+            throw new AccountNotFoundException(String.format("Conta de número [%s] não encontrada", accountId));
         }
     }
 
-    //OK
+    void validatePageLimit(Integer page, PagedModel.PageMetadata pageMetadata) {
+        if (pageMetadata.getTotalPages() < page) {
+            throw new PageLimitExceededException("Página não encontrada");
+        }
+    }
+
     List<TransferDTO> getPaginatedTransfers(List<TransferDTO> transfers, Integer page, Integer limit) {
         int startIndex = page * limit;
         int endIndex = Math.min(startIndex + limit, transfers.size());
         return (startIndex <= endIndex) ? transfers.subList(startIndex, endIndex) : new ArrayList<>();
     }
 
-    //OK
     List<EntityModel<TransferDTO>> mapToEntityModels(List<TransferDTO> transfers) {
         return transfers.stream().map(EntityModel::of).collect(Collectors.toList());
     }
 
-    //OK
     PagedModel.PageMetadata createPageMetadata(Integer limit, Integer page, Integer totalElements) {
         return new PagedModel.PageMetadata(limit, page, totalElements);
     }
