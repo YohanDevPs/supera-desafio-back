@@ -31,8 +31,8 @@ O dado buscado pelo endpoint é um objeto paginado com informações sobre o tam
 
 ### Swagger
 Para visualizar a documentação da API por meio do Swagger, siga os passos abaixo:
-Certifique-se de que a aplicação esteja em execução localmente.
-Acesse a seguinte URL em seu navegador: http://localhost:8080/swagger-ui/index.html
+1. Certifique-se de que a aplicação esteja em execução localmente.
+2. Acesse a seguinte URL em seu navegador: http://localhost:8080/swagger-ui/index.html
 
 ### Ou
 
