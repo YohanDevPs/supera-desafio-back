@@ -19,6 +19,13 @@ O dado buscado pelo endpoint é um objeto paginado com informações sobre o tam
 
                              java -jar <...caminhoParaSeuJar>
 
+## Como executar os testes unitários 
+
+- Você pode executar usando sua IDE. 
+- Caso queira executar a aplicação via linha de comando, vá ate a raiz do projeto e execute:
+
+                   mvn test
+
 
 ## Documentação
 
