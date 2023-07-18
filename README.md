@@ -11,21 +11,22 @@ O dado buscado pelo endpoint é um objeto paginado com informações sobre o tam
 
 - Você pode executar a aplicação da maneira que quiser e utilizando a IDE de sua preferência. 
 - Caso queira executar a aplicação via linha de comando, execute primeiramente o comando:
-
-                   ./mvnw clean package  para linux.
-
-                   .\mvnw clean package  para windows.
+```
+./mvnw clean package  para linux.
+.\mvnw clean package  para windows.
+```
 - Após isso execute o comando: 
-
-                             java -jar <...caminhoParaSeuJar>
+```
+  java -jar <...caminhoParaSeuJar>
+```
 
 ## Como executar os testes unitários 
 
 - Você pode executar usando sua IDE. 
 - Caso queira executar a aplicação via linha de comando, vá ate a raiz do projeto e execute:
-
-                   mvn test
-
+```
+mvn test
+```
 
 ## Documentação
 
@@ -34,12 +35,14 @@ Para visualizar a documentação da API por meio do Swagger, siga os passos abai
 1. Certifique-se de que a aplicação esteja em execução localmente.
 2. Acesse a seguinte URL em seu navegador: http://localhost:8080/swagger-ui/index.html
 
-### Ou
 
 
-#### URL
+### Manipulando as requisições da API.
+#### Para testar o projeto, recomendo usar alguma ferramenta para realizar as requisições, como o Postman ou Insomnia.
+Para realizar os dados da requisição, use o verbo HTTP **<font color="blue">GET</font>** e insira a url.
+
 <details>
-  <summary>Clique aqui para ver um exemplo de url e objeto de resposta</summary>
+  <summary>Exemplo</summary>
 
 #### URL
 **<font color="blue">GET</font>** `http://localhost:8080/api/transfer/v1/1?page=0&startDate=2022-12-31%2021:00:00&transactionOperatorName=Brockie`
