@@ -4,8 +4,7 @@ import br.com.banco.dtos.TransferDTO;
 import br.com.banco.dtos.TransferFilterDTO;
 import br.com.banco.entities.Account;
 import br.com.banco.entities.Transfer;
-import br.com.banco.exeptions.AccountNotFoundException;
-import br.com.banco.exeptions.PageLimitExceededException;
+import br.com.banco.exeptions.ResourceNotFoundException;
 import br.com.banco.mocks.MockTransfer;
 import br.com.banco.repositories.AccountRepository;
 import br.com.banco.repositories.TransferRepository;
@@ -140,7 +139,7 @@ public class TransferServiceTest {
         Long accountId = 1L;
         when(accountRepository.findById(accountId)).thenReturn(Optional.empty());
 
-        AccountNotFoundException exception = Assertions.assertThrows(AccountNotFoundException.class, () -> {
+        ResourceNotFoundException exception = Assertions.assertThrows(ResourceNotFoundException.class, () -> {
             transferService.validateAccountExists(accountId);
         });
         Assertions.assertEquals(String.format("Conta de número [%s] não encontrada", accountId), exception.getMessage());
@@ -159,7 +158,7 @@ public class TransferServiceTest {
         Integer page = 5;
         PagedModel.PageMetadata pageMetadata = new PagedModel.PageMetadata(10, 2, 30);
 
-        PageLimitExceededException exception = Assertions.assertThrows(PageLimitExceededException.class, () -> {
+        ResourceNotFoundException exception = Assertions.assertThrows(ResourceNotFoundException.class, () -> {
             transferService.validatePageLimit(page, pageMetadata);
         });
         Assertions.assertEquals("Página não encontrada", exception.getMessage());
