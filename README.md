@@ -1,11 +1,10 @@
-# Processo Seletivo Java
+# Teste técnico back end - Supera Inovação e Tecnologia
 
 ## Objetivo 
 
-- Construir uma API RESTful para emissao de extrato bancario, com capacidade de filtrar dados de transações a partir do código de número de conta (obrigatório), data inicial, data final e nome do operador.
+Construir uma API RESTful para emissao de extrato bancario, com capacidade de filtrar dados de transações a partir do código de número de conta (obrigatório), data inicial, data final e nome do operador.
 
 O dado buscado pelo endpoint é um objeto paginado com informações sobre o tamanho da página, quantidade de elementos totais, total de páginas disponíveis, número da página atual e saldos total e por período.
-
 
 ## Como executar a aplicação 
 
@@ -34,8 +33,6 @@ mvn test
 Para visualizar a documentação da API por meio do Swagger, siga os passos abaixo:
 1. Certifique-se de que a aplicação esteja em execução localmente.
 2. Acesse a seguinte URL em seu navegador: http://localhost:8080/swagger-ui/index.html
-
-
 
 ### Manipulando as requisições da API.
 #### Para testar o projeto, recomendo usar alguma ferramenta para realizar as requisições, como o Postman ou Insomnia.
@@ -86,6 +83,6 @@ Para realizar os dados da requisição, use o verbo HTTP **<font color="blue">GE
 
 
 ## Recomendação
-Esse é o [link do repositorio](https://github.com/YohanDevPs/supera-desafio-front) do front end construida em React, responsavel por consumir essa API. Instale e execute ambos os projetos para uma experiencia completa.
+Esse é o [link do repositorio](https://github.com/YohanDevPs/supera-desafio-front) do front end construída em React, responsável por consumir essa API. Instale e execute ambos os projetos para uma experiência completa.
 
 ![Projeto transação bancaria front end](https://github.com/YohanDevPs/supera-desafio-back/assets/87953006/5abcaca6-00de-440d-a4cf-771f6c4c244c)
