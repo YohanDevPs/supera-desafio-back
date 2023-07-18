@@ -1,8 +1,10 @@
 # Processo Seletivo Java
 
-## Descrição 
+## Objetivo 
 
-- Este teste consiste em construir uma camada de serviço, para uma operação muito realizada em bancos, para emissão de extrato bancário.
+- Construir uma API RESTful para emissao de extrato bancario, com capacidade de filtrar dados de transações a partir do código de número de conta (obrigatório), data inicial, data final e nome do operador.
+
+O dado buscado pelo endpoint é um objeto paginado com informações sobre o tamanho da página, quantidade de elementos totais, total de páginas disponíveis, número da página atual e saldos total e por período.
 
 
 ## Como executar a aplicação 
@@ -17,33 +19,63 @@
 
                              java -jar <...caminhoParaSeuJar>
 
-## Requisitos de sistema
 
-- Possuir a JDK 11 
-- Uma IDE ou editor de sua preferência
+## Documentação
 
-## Requisitos do Projeto
+### Swagger
+Para visualizar a documentação da API por meio do Swagger, siga os passos abaixo:
+Certifique-se de que a aplicação esteja em execução localmente.
+Acesse a seguinte URL em seu navegador: http://localhost:8080/swagger-ui/index.html
 
-- A sua api deve fornecer os dados de transferência de acordo com o número da conta bacária.
-- Caso não seja informado nenhum filtro, retornar  todos os dados de transferência.
-- Caso seja informado um período de tempo, retornar todas as transferências relacionadas à aquele período de tempo.
-- Caso seja informado o nome do operador da transação, retornar todas as transferências relacionados à aquele operador.
-- Caso todos os filtros sejam informados, retornar todas as transferências com base no período de tempo informado e o nome do operador.
-- Operador de transação nada mais é que, o nome do responsável de destino da transação caso seja uma operação de transferência de saida ou o nome do responsável de onde se originou a transação caso seja uma operação de transferência de entrada.
-- Os valores devem ser de ponto flutuante, e deve-se considerar apenas duas casas decimais.
-- O frontend deve seguir como exemplo o protótipo informado no documento do processo seletivo.
-- No frontend o usuário deve ser capaz de informar um período de tem e/ou nome do operador da transasção como filtros para buscar as transações.
-- As transações devem ser exibidas junto com o saldo total e o saldo total no período de acordo com o protótipo do documento.
+### Ou
 
-## O que iremos avaliar
-- Cumprimento dos requisitos
-- Qualidade do projeto de API e fluidez da DX
-- Organização do código e boas práticas
-- Domínio das linguagens, bibliotecas e ferramentas utilizadas
-- Organização dos commits
-- Escrita e cobertura de testes
 
-## Sobre a entrega
-- Utilizar o padrão RESTFul para a construção da sua API.
-- Existe um script sql no pacote resources que cotém a modelagem do banco que pode ser seguida, e valores iniciais.
-- Caso julge necessário você poderá criar mais tablas, porém a estrutura inicial não deve ser alterada.
+#### URL
+<details>
+  <summary>Clique aqui para ver um exemplo de url e objeto de resposta</summary>
+
+#### URL
+**<font color="blue">GET</font>** `http://localhost:8080/api/transfer/v1/1?page=0&startDate=2022-12-31%2021:00:00&transactionOperatorName=Brockie`
+
+#### Objeto de resposta
+```
+{
+    "pagedTransfers": {
+        "links": [
+            {
+                "rel": "last",
+                "href": "http://localhost:8080/api/transfer/v1/1?page=1&startDate=2022-12-31%2021:00:00&endDate=2023-07-18%2015:08:24&transactionOperatorName=Brockie"
+            },
+            {
+                "rel": "next",
+                "href": "http://localhost:8080/api/transfer/v1/1?page=1&startDate=2022-12-31%2021:00:00&endDate=2023-07-18%2015:08:24&transactionOperatorName=Brockie"
+            }
+        ],
+        "content": [
+            {
+                "id": 5,
+                "transferDate": "2023-02-18T05:32:40.000+00:00",
+                "amount": -998.74,
+                "type": "SAQUE",
+                "transactionOperatorName": "Brockie",
+                "links": []
+            }
+        ],
+        "page": {
+            "size": 4,
+            "totalElements": 1,
+            "totalPages": 1,
+            "number": 0
+        }
+    },
+    "totalBalance": 88500.45,
+    "periodBalance": -998.74
+}
+```
+</details>
+
+
+## Recomendação
+Esse é o [link do repositorio](https://github.com/YohanDevPs/supera-desafio-front) do front end construida em React, responsavel por consumir essa API. Instale e execute ambos os projetos para uma experiencia completa.
+
+![Projeto transação bancaria front end](https://github.com/YohanDevPs/supera-desafio-back/assets/87953006/5abcaca6-00de-440d-a4cf-771f6c4c244c)
