@@ -2,8 +2,7 @@ package br.com.banco.services;
 
 import br.com.banco.dtos.TransferDTO;
 import br.com.banco.dtos.TransferFilterDTO;
-import br.com.banco.exeptions.AccountNotFoundException;
-import br.com.banco.exeptions.PageLimitExceededException;
+import br.com.banco.exeptions.ResourceNotFoundException;
 import br.com.banco.repositories.AccountRepository;
 import br.com.banco.repositories.TransferRepository;
 import br.com.banco.response.CustomPagedTransfersResponse;
@@ -77,13 +76,13 @@ public class TransferService {
 
     void validateAccountExists(Long accountId) {
         if (accountRepository.findById(accountId).isEmpty()) {
-            throw new AccountNotFoundException(String.format("Conta de número [%s] não encontrada", accountId));
+            throw new ResourceNotFoundException(String.format("Conta de número [%s] não encontrada", accountId));
         }
     }
 
     void validatePageLimit(Integer page, PagedModel.PageMetadata pageMetadata) {
-        if (pageMetadata.getTotalPages() < page) {
-            throw new PageLimitExceededException("Página não encontrada");
+        if (pageMetadata.getTotalPages() < page || pageMetadata.getTotalPages() < 0) {
+            throw new ResourceNotFoundException("Página não encontrada");
         }
     }
 
